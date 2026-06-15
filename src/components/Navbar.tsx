@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Sun, Moon } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
   onNavigate: (section: string) => void;
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
 }
 
-export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
+export default function Navbar({ activeSection, onNavigate, theme, onToggleTheme }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -73,21 +75,39 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
             ))}
           </ul>
 
-          {/* Desktop Call to Action */}
-          <a 
-            href="#contact" 
-            className="nav-cta" 
-            id="nav-cta-contact"
-            onClick={(e) => {
-              e.preventDefault();
-              handleLinkClick('contact');
-            }}
-          >
-            Start Project <ArrowUpRight size={14} style={{ display: 'inline', marginLeft: '4px', verticalAlign: 'middle' }} />
-          </a>
+          {/* Theme toggle + CTA group */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <button
+              className="theme-toggle-btn"
+              onClick={onToggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              id="nav-theme-toggle"
+            >
+              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+            </button>
+            <a
+              href="#contact"
+              className="nav-cta"
+              id="nav-cta-contact"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLinkClick('contact');
+              }}
+            >
+              Start Project <ArrowUpRight size={14} style={{ display: 'inline', marginLeft: '4px', verticalAlign: 'middle' }} />
+            </a>
+          </div>
 
-          {/* Mobile Hamburguer / Trigger bar */}
-          <div className="mobile-navbar-compact" id="mobile-navigation-trigger">
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="mobile-navbar-compact" id="mobile-navigation-trigger" style={{ gap: '0.5rem' }}>
+            <button
+              className="theme-toggle-btn"
+              onClick={onToggleTheme}
+              aria-label="Toggle theme"
+              style={{ width: '36px', height: '36px' }}
+            >
+              {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+            </button>
             <button
               className={`hamburger-btn ${isMobileMenuOpen ? 'open' : ''}`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

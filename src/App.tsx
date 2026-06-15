@@ -18,6 +18,17 @@ export default function App() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastIcon, setToastIcon] = useState<'sparkles' | 'compass'>('sparkles');
 
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    try { return localStorage.getItem('novaops-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; }
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('novaops-theme', theme); } catch {}
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
+
   // Scroll progress for top bar
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
@@ -116,7 +127,7 @@ export default function App() {
       <Background />
 
       {/* 2. Floating Liquid Glass Navigation */}
-      <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
+      <Navbar activeSection={activeSection} onNavigate={handleNavigate} theme={theme} onToggleTheme={toggleTheme} />
 
       {/* 3. Main Continuous Cinematic Flow */}
       <main id="main-content-flow">
