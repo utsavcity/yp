@@ -1,0 +1,6 @@
+{
+  "name": "NOVAOPS Website",
+  "description": "A premium single-page website for NOVAOPS specializing in AI-powered IT solutions, custom software, and enterprise automation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
